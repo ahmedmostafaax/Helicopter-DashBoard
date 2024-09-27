@@ -47,8 +47,13 @@ const Product = () => {
       }
     }
 
+    // Log the formData entries
+    for (const pair of formData.entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+    }
+
     try {
-      await axios.post("https://project-model.onrender.com/api/v1/product", formData, {
+      const response = await axios.post("https://project-model.onrender.com/api/v1/product", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           token: token,
@@ -57,7 +62,7 @@ const Product = () => {
       toast.success("Product added successfully!");
     } catch (err) {
       toast.error("Error adding product.");
-      console.error("Error adding product:", err);
+      console.error("Error adding product:", err.response ? err.response.data : err);
     }
   };
 
@@ -67,7 +72,6 @@ const Product = () => {
       <h1 className="py-2">Manage Products</h1>
 
       <form onSubmit={handleSubmit} className="mb-4">
-       
         <div className="form-group">
           <label htmlFor="title">Product Title</label>
           <input
