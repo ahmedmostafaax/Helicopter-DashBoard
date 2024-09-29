@@ -47,7 +47,7 @@ const Product = () => {
       }
     }
 
-    // Log the formData entries
+ 
     for (const pair of formData.entries()) {
       console.log(`${pair[0]}: ${pair[1]}`);
     }
@@ -61,8 +61,25 @@ const Product = () => {
       });
       toast.success("Product added successfully!");
     } catch (err) {
-      toast.error("Error adding product.");
-      console.error("Error adding product:", err.response ? err.response.data : err);
+   
+      if (err.response) {
+      
+        console.error("Error response data:", err.response.data);
+        console.error("Error response status:", err.response.status);
+        console.error("Error response headers:", err.response.headers);
+        
+   
+        const errorMessage = err.response.data.message || "Unknown error from server.";
+        toast.error(`Error adding product: ${errorMessage}`);
+      } else if (err.request) {
+       
+        console.error("No response received:", err.request);
+        toast.error("No response received from server.");
+      } else {
+       
+        console.error("Error setting up request:", err.message);
+        toast.error(`Error: ${err.message}`);
+      }
     }
   };
 

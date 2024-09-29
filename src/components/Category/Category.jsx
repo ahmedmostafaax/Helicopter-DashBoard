@@ -55,8 +55,13 @@ const Category = () => {
     formData.append("name", name);
     formData.append("image", image);
 
+ 
+    for (const pair of formData.entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+    }
+
     try {
-      await axios.post("https://project-model.onrender.com/api/v1/categories", formData, {
+      const response = await axios.post("https://project-model.onrender.com/api/v1/categories", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           token: token,
@@ -65,8 +70,9 @@ const Category = () => {
       showMessage("success", "Category added successfully!");
       fetchCategories();
     } catch (err) {
-      console.error("Error adding category:", err);
-      showMessage("error", "Error adding category.");
+
+      console.error("Error adding category:", err.response ? err.response.data : err.message);
+      showMessage("error", `Error adding category: ${err.response ? err.response.data.message : err.message}`);
     }
   };
 
@@ -96,8 +102,8 @@ const Category = () => {
       fetchCategories();
       setShow(false); 
     } catch (err) {
-      console.error("Error updating category:", err);
-      showMessage("error", "Error updating category.");
+      console.error("Error updating category:", err.response ? err.response.data : err.message);
+      showMessage("error", `Error updating category: ${err.response ? err.response.data.message : err.message}`);
     }
   };
 
@@ -109,8 +115,8 @@ const Category = () => {
       showMessage("success", "Category deleted successfully!");
       fetchCategories();
     } catch (err) {
-      console.error("Error deleting category:", err);
-      showMessage("error", "Error deleting category.");
+      console.error("Error deleting category:", err.response ? err.response.data : err.message);
+      showMessage("error", `Error deleting category: ${err.response ? err.response.data.message : err.message}`);
     }
   };
 
