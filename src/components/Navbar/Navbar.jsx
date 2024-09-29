@@ -1,7 +1,17 @@
-import React from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import React from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
+    const navigate = useNavigate();
+
+    const handleSignOut = () => {
+        
+        localStorage.removeItem('token');
+        
+        
+        navigate('/signin');
+    };
+
     return (
         <div>
             <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -27,14 +37,13 @@ export default function Navbar() {
                         </ul>
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li className="nav-item">
-                                <NavLink className="nav-link" to="/signin">Sign out</NavLink>
+                                <span className="nav-link" style={{ cursor: 'pointer' }} onClick={handleSignOut}>Sign out</span>
                             </li>
                         </ul>
-
                     </div>
 
                 </div>
             </nav>
         </div>
-    )
+    );
 }
